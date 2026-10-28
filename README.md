@@ -2,7 +2,7 @@ price-list-3.jpg# Tsepayaphonerepair.
 Phone repair technician 
 <!-- Error while uploading price-list-2.jpg -->
 Error while uploading logo.jpg!-- 
-Error while uploading price-list-3.jpg -->
+Error while uploading price-list-3.jpg --
 Error while uploading price-list-4.jpg
 <!doctype html>
 <html lang="en">
