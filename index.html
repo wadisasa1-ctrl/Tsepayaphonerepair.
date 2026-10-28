@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#071a3d">
+<title>Tsepaya Phone Repair</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#eef5ff;color:#071a3d}
+.app{max-width:480px;margin:auto;min-height:100vh;background:white;box-shadow:0 0 30px #0002}
+header{background:#071a3d;color:white;padding:18px;text-align:center}
+header img{width:88px;height:88px;border-radius:50%;object-fit:cover;border:3px solid #0aa8ff}
+h1{font-size:22px;margin:9px 0 2px}.tag{color:#16b8ff;font-size:12px;font-weight:bold}
+main{padding:16px}.hero{background:linear-gradient(135deg,#061735,#0b5fc8);color:white;border-radius:18px;padding:20px;margin-bottom:16px}
+.hero h2{margin:0 0 8px;font-size:25px}.hero p{margin:0 0 15px;line-height:1.4}
+.btn{display:inline-block;border:0;border-radius:12px;padding:13px 16px;background:#078cff;color:white;font-weight:bold;text-decoration:none;cursor:pointer}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.card{border:1px solid #d8e5f5;border-radius:14px;padding:14px;background:#fff}
+.card b{display:block;margin-bottom:5px}.icon{font-size:25px}
+.section{margin-top:22px}.section h2{font-size:19px}
+.price{display:flex;justify-content:space-between;gap:10px;padding:13px;border-bottom:1px solid #e7edf5}
+.price:last-child{border:0}.price span:last-child{font-weight:bold;color:#087cf0;white-space:nowrap}
+.notice{background:#071a3d;color:white;border-radius:14px;padding:15px;margin-top:12px}
+form input,form textarea{width:100%;padding:12px;border:1px solid #cbd9eb;border-radius:10px;margin:6px 0 10px;font-size:15px}
+textarea{min-height:90px}.full{width:100%;margin-top:8px}
+footer{padding:20px;background:#071a3d;color:white;text-align:center;font-size:13px}
+nav{position:sticky;bottom:0;background:white;border-top:1px solid #ddd;display:flex;justify-content:space-around;padding:9px}
+nav button{border:0;background:white;color:#123;font-weight:bold}
+small{color:#667}
+.payment-check{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.4;margin:14px 0}.payment-check input{width:auto;margin-top:3px}.small-note{font-size:12px;opacity:.8;line-height:1.4;margin-top:8px}
+.price-list{display:flex;flex-direction:column;gap:10px;margin-top:4px}
+.price-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 14px;border-radius:12px;background:#f4f7fb;border:1px solid #e1e7ef}
+.price-row span{font-weight:600}
+.price-row strong{white-space:nowrap;font-size:1.02rem}
+.price-note{margin:12px 2px 0;font-size:.88rem;opacity:.75}
+@media(max-width:420px){.price-row{padding:12px 10px;font-size:.92rem}.price-row strong{font-size:.95rem}}
+
+/* Detailed screen price list */
+.price-list-title{margin:6px 0 14px;font-size:20px;color:#071a3d}
+.screen-note{background:#071a3d;color:#fff;border-radius:12px;padding:12px 14px;margin:0 0 14px;font-size:13px;line-height:1.45}
+.brand-list{display:flex;flex-direction:column;gap:10px}
+.brand-list details{border:1px solid #d7e3f2;border-radius:12px;overflow:hidden;background:#fff}
+.brand-list summary{padding:13px 14px;font-weight:800;font-size:16px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;background:#f5f9ff}
+.brand-list summary::-webkit-details-marker{display:none}
+.brand-list summary::after{content:'＋';font-size:21px}
+.brand-list details[open] summary::after{content:'−'}
+.model-table{width:100%;border-collapse:collapse;font-size:14px}
+.model-table th{background:#0b5fc8;color:#fff;text-align:left;padding:9px 10px}
+.model-table td{padding:9px 10px;border-bottom:1px solid #e6edf5}
+.model-table td:last-child{font-weight:800;text-align:right;color:#087cf0;white-space:nowrap}
+.model-table tr:last-child td{border-bottom:0}
+.screen-extras{margin-top:12px;display:grid;gap:8px}
+.screen-extra{padding:11px 12px;border-radius:10px;background:#fff7c7;border:1px solid #f0d83b;font-weight:800}
+.screen-replacement-column{margin-top:22px;border:2px solid #0b5fc8;border-radius:16px;overflow:hidden;background:#f8fbff}
+.screen-replacement-title{background:#0b5fc8;color:#fff;text-align:center;font-size:21px;font-weight:900;padding:14px 10px}
+.screen-price-list-label{background:#071a3d;color:#fff;text-align:center;font-size:18px;font-weight:900;letter-spacing:.5px;padding:11px}
+.screen-price-column-head{display:grid;grid-template-columns:1fr auto;gap:10px;background:#dbeeff;color:#071a3d;font-weight:900;padding:10px 12px;border-bottom:1px solid #b9d8f5}
+.screen-replacement-column>.screen-note{margin:10px 12px 12px}
+.screen-replacement-column>.brand-list{padding:0 12px}
+.screen-replacement-column>.screen-extras{padding:0 12px}
+.screen-replacement-column>.price-note{padding:0 12px 12px}
+
+.price-choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:4px 0 16px}
+.price-choice-card{border:1px solid #d7e5f5;border-radius:16px;background:#f8fbff;padding:14px 10px;text-align:center;cursor:pointer;min-height:128px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;transition:.18s;box-shadow:0 3px 10px rgba(0,0,0,.05)}
+.price-choice-card.active{border-color:#0b5fc8;background:#eef6ff;box-shadow:0 0 0 2px rgba(11,95,200,.12)}
+.price-choice-icon{font-size:34px;line-height:1}.price-choice-title{font-size:14px;font-weight:800;color:#073b80}.price-choice-hint{font-size:11px;color:#667085;line-height:1.25}
+.price-panel{display:none}.price-panel.active{display:block}.panel-heading{display:flex;align-items:center;gap:12px;background:#f6faff;border:1px solid #dce9f8;border-radius:14px;padding:12px;margin-bottom:12px}.panel-heading h3{margin:0;color:#073b80;font-size:17px}.panel-heading p{margin:3px 0 0;color:#667085;font-size:12px}.panel-icon{font-size:32px;line-height:1}
+.other-repair-prices{margin-top:16px;border-top:1px solid #e4eaf2;padding-top:14px}.other-repair-prices h3{text-align:center;margin:0 0 10px;color:#073b80;font-size:15px}.other-price-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.other-price-grid>div{display:flex;flex-direction:column;gap:4px;background:#f8fbff;border:1px solid #e0e8f2;border-radius:10px;padding:10px}.other-price-grid span{font-size:12px;color:#475467}.other-price-grid strong{font-size:13px;color:#0b5fc8}
+@media(max-width:520px){.price-choice-grid{gap:8px}.price-choice-card{min-height:118px;padding:12px 6px}.price-choice-title{font-size:12px}.price-choice-hint{font-size:10px}.other-price-grid{grid-template-columns:1fr}}
+</style>
+
+<style>
+.nav-buttons{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
+.nav-buttons a{display:block;text-align:center;text-decoration:none;padding:12px;border-radius:12px;background:#111;color:#fff;font-weight:700}
+.card{margin:18px 0;padding:0;overflow:hidden;border-radius:16px;background:#fff;box-shadow:0 4px 16px rgba(0,0,0,.08)}
+details.accordion-card{overflow:hidden}
+details.accordion-card summary{list-style:none;width:100%;box-sizing:border-box;background:#fff;padding:18px;font-size:18px;font-weight:800;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+details.accordion-card summary::-webkit-details-marker{display:none}
+details.accordion-card summary::after{content:'＋';font-size:25px;line-height:1}
+details.accordion-card[open] summary::after{content:'−'}
+details.accordion-card[open] summary{border-bottom:1px solid #eee}
+.accordion-content{padding:0 18px 18px}
+.service-grid{display:grid;grid-template-columns:1fr;gap:10px}.services-subheading{margin:18px 0 10px;font-size:17px}
+.service-item,.price-choice{border:1px solid #ddd;background:#f8f8f8;border-radius:12px;padding:13px;font-weight:700;text-align:left}
+button.service-item{cursor:pointer}
+.price-select{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.price-choice{cursor:pointer}
+.price-panel{display:none;margin-top:12px;padding:14px;border-radius:12px;background:#f3f6f9}
+.price-panel.active{display:block}
+.location-link{display:inline-block;margin-top:8px;padding:12px 15px;border-radius:12px;background:#111;color:#fff;text-decoration:none;font-weight:700}
+@media(max-width:480px){.nav-buttons,.price-select{grid-template-columns:1fr 1fr}.nav-buttons a{font-size:13px}}
+</style>
+<style>
+.nav-buttons{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
+.nav-buttons a{display:block;text-align:center;text-decoration:none;padding:12px;border-radius:12px;background:#111;color:#fff;font-weight:700}
+.card{margin:18px 0;padding:0;overflow:hidden;border-radius:16px;background:#fff;box-shadow:0 4px 16px rgba(0,0,0,.08)}
+
+.service-grid{display:grid;grid-template-columns:1fr;gap:10px}.services-subheading{margin:18px 0 10px;font-size:17px}
+.service-item,.price-choice{border:1px solid #ddd;background:#f8f8f8;border-radius:12px;padding:13px;font-weight:700;text-align:left}
+.price-select{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.price-choice{cursor:pointer}
+.price-panel{display:none;margin-top:12px;padding:14px;border-radius:12px;background:#f3f6f9}
+.price-panel.active{display:block}
+.location-link{display:inline-block;margin-top:8px;padding:12px 15px;border-radius:12px;background:#111;color:#fff;text-decoration:none;font-weight:700}
+</style>
+<style>
+/* Tsepaya vertical accordion layout */
+#services,#prices,#location{width:100%;margin:18px 0;}
+#services .accordion-toggle,#prices .accordion-toggle,#location .accordion-toggle{width:100%;} 
+#services .service-grid,#prices .price-select{display:flex;flex-direction:column;gap:10px;}
+#services .service-item,#prices .price-choice{width:100%;} 
+#prices .price-panel{width:100%;}
+
+/* Clean expandable screen replacement price list */
+.screen-replacement-column{margin-top:0;border:1px solid #d7e3f2;border-radius:14px;overflow:hidden;background:#fff}
+.screen-replacement-column>summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:#0b5fc8;color:#fff;padding:15px 16px;font-size:18px;font-weight:900}
+.screen-replacement-column>summary::-webkit-details-marker{display:none}
+.screen-replacement-column>summary .screen-toggle{font-size:24px;line-height:1;font-weight:400}
+.screen-replacement-column[open]>summary .screen-toggle{content:'−'}
+.screen-replacement-column .screen-price-list-label{margin:0}
+.screen-replacement-column .brand-list{padding:12px}
+.screen-replacement-column .screen-extras{padding:0 12px}
+.screen-replacement-column .price-note{padding:0 12px 12px}
+
+/* Clean visual section headings */
+.visual-heading{display:flex;align-items:center;gap:12px;padding:12px 14px;background:linear-gradient(135deg,#071a3d,#0b5fc8);color:#fff;border-radius:14px;margin-bottom:10px}
+.visual-icon{width:54px;height:54px;flex:0 0 54px;border-radius:12px;background:#fff;display:grid;place-items:center}
+.visual-icon svg{width:38px;height:38px}
+.visual-heading h3{margin:0;font-size:18px;letter-spacing:.4px}
+.visual-heading p{margin:3px 0 0;font-size:12px;opacity:.9}
+.battery-replacement-column{margin-top:14px;border:1px solid #d7e3f2;border-radius:14px;overflow:hidden;background:#fff}
+.battery-replacement-column>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;background:#0b5fc8;color:#fff;padding:13px 14px;font-size:18px;font-weight:900}
+.battery-replacement-column>summary::-webkit-details-marker{display:none}
+.battery-replacement-column .battery-content{padding:12px}
+.battery-table-wrap{overflow-x:auto}
+.battery-table{width:100%;border-collapse:collapse;font-size:13px;min-width:360px}
+.battery-table th{background:#071a3d;color:#fff;text-align:left;padding:9px}
+.battery-table td{padding:9px;border-bottom:1px solid #e6edf5}
+.battery-table td:last-child{font-weight:900;text-align:right;color:#087cf0;white-space:nowrap}
+.battery-note{margin-top:10px;padding:10px 12px;border-radius:10px;background:#eef7ff;font-size:12px;line-height:1.4}
+@media(max-width:420px){.visual-heading{padding:10px}.visual-icon{width:48px;height:48px;flex-basis:48px}.visual-heading h3{font-size:16px}}
+</style>
+
+<style>
+.about-box{line-height:1.55;color:#344054}.about-box h3{color:#073b80;margin:16px 0 8px}.about-box ul{padding-left:20px}.policy-box{background:#fff8e6;border:1px solid #f2d27a;border-radius:12px;padding:12px;margin:12px 0}.proof-box{background:#f4f8ff;border:1px solid #cfe0f5;border-radius:12px;padding:12px}.receipt-box{background:#f6fff8;border:1px solid #c8e7d0;border-radius:12px;padding:12px}.mini-details{border:1px solid #d7e3f2;border-radius:12px;margin:10px 0;overflow:hidden;background:#fff}.mini-details summary{cursor:pointer;padding:13px 14px;font-weight:800;color:#073b80;list-style:none;display:flex;justify-content:space-between}.mini-details summary::-webkit-details-marker{display:none}.mini-details summary::after{content:'＋';font-size:20px}.mini-details[open] summary::after{content:'−'}.mini-content{padding:12px 14px;border-top:1px solid #e6edf5}.price-list-table{width:100%;border-collapse:collapse;font-size:13px}.price-list-table th{background:#071a3d;color:#fff;text-align:left;padding:9px}.price-list-table td{padding:8px;border-bottom:1px solid #e6edf5}.price-list-table td:last-child{font-weight:900;text-align:right;white-space:nowrap;color:#087cf0}.price-extra-note{margin-top:10px;padding:10px;border-radius:10px;background:#eef7ff;font-size:12px}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+<img src="logo.jpg" alt="Tsepaya Phone Repair logo">
+<h1>TSEPAYA PHONE REPAIR</h1>
+<div class="tag">FAST • RELIABLE & AFFORDABLE</div>
+</header>
+
+<main>
+<section class="hero">
+<h2>Broken Phone? We've Got You!</h2>
+<p>Professional phone repairs at affordable prices.</p>
+<a class="btn" href="#booking">Book a Repair</a>
+</section>
+
+
+
+<details id="services" class="card accordion-card">
+  <summary>Services We Offer</summary>
+  <div class="accordion-content">
+    <div class="service-grid">
+      <button class="service-item" type="button">Hardware Problems</button>
+      <button class="service-item" type="button">Software Problems</button>
+      <button class="service-item" type="button">M-Kopa / PayJoy Removal</button>
+      <button class="service-item" type="button">Google FRP Bypass</button>
+      <button class="service-item" type="button">iCloud</button>
+    </div>
+
+    <h3 class="services-subheading">Phone Repairs</h3>
+    <div class="service-grid">
+      <div class="service-item">Screen Repairs</div>
+      <div class="service-item">Battery Replacement</div>
+      <div class="service-item">Charging Port Repairs</div>
+      <div class="service-item">Side Button Repairs</div>
+      <div class="service-item">Back Cover Repairs</div>
+      <div class="service-item">iPhone Home Button Repairs</div>
+    </div>
+  </div>
+</details>
+
+<details id="prices" class="card accordion-card">
+  <summary>Repair Prices</summary>
+  <div class="accordion-content">
+    <div class="price-choice-grid" aria-label="Repair price categories">
+      <button type="button" class="price-choice-card active" data-price-target="screen-price-panel" onclick="showPricePanel('screen-price-panel', this)">
+        <span class="price-choice-icon">📱💥</span>
+        <span class="price-choice-title">SCREEN REPLACEMENT</span>
+        <span class="price-choice-hint">Tap to view screen models & prices</span>
+      </button>
+      <button type="button" class="price-choice-card" data-price-target="battery-price-panel" onclick="showPricePanel('battery-price-panel', this)">
+        <span class="price-choice-icon">🔋</span>
+        <span class="price-choice-title">BATTERY REPLACEMENT</span>
+        <span class="price-choice-hint">Tap to view battery prices</span>
+      </button>
+    </div>
+
+    <div id="screen-price-panel" class="price-panel active">
+      <div class="panel-heading">
+        <div class="panel-icon">📱💥</div>
+        <div><h3>SCREEN REPLACEMENT</h3><p>PRICE LIST — choose a brand below</p></div>
+      </div>
+      <div class="brand-list">
+        <details><summary>Samsung</summary>
+          <table class="model-table"><thead><tr><th>SCREEN REPLACEMENT MODEL</th><th>PRICE</th></tr></thead><tbody>
+            <tr><td>Galaxy J2 – J7</td><td>R250</td></tr><tr><td>Galaxy A1 – A4</td><td>R300</td></tr><tr><td>Galaxy A10 – A12</td><td>R300</td></tr><tr><td>Galaxy A05 – A06</td><td>R350</td></tr><tr><td>Galaxy A07</td><td>R400</td></tr><tr><td>Galaxy A13 – A15</td><td>R400</td></tr><tr><td>Galaxy A20 – A30</td><td>R350</td></tr><tr><td>Galaxy A21s – A24</td><td>R400</td></tr><tr><td>Galaxy A31 – A34</td><td>R350</td></tr><tr><td>Galaxy A51 – A54</td><td>R500</td></tr>
+          </tbody></table>
+        </details>
+        <details><summary>Huawei</summary>
+          <table class="model-table"><thead><tr><th>SCREEN REPLACEMENT MODEL</th><th>PRICE</th></tr></thead><tbody>
+            <tr><td>Huawei Y5 (2018)</td><td>R250</td></tr><tr><td>Huawei Y5 (2019)</td><td>R300</td></tr><tr><td>Huawei Y6 (2018)</td><td>R300</td></tr><tr><td>Huawei Y6 (2019)</td><td>R320</td></tr><tr><td>Huawei Y7 (2018)</td><td>R350</td></tr><tr><td>Huawei Y7 (2019)</td><td>R370</td></tr><tr><td>Huawei Y9 (2018)</td><td>R400</td></tr><tr><td>Huawei Y9 (2019)</td><td>R420</td></tr><tr><td>Huawei Y5p</td><td>R300</td></tr><tr><td>Huawei Y6p</td><td>R350</td></tr><tr><td>Huawei Y7p</td><td>R400</td></tr><tr><td>Huawei Y8p</td><td>R450</td></tr><tr><td>Huawei Y9a</td><td>R500</td></tr><tr><td>Huawei Nova 5T</td><td>R550</td></tr><tr><td>Huawei Nova 7i</td><td>R600</td></tr><tr><td>Huawei Nova 8</td><td>R650</td></tr><tr><td>Huawei Nova 9</td><td>R700</td></tr><tr><td>Huawei Nova 10</td><td>R750</td></tr><tr><td>Huawei Nova 11</td><td>R800</td></tr><tr><td>Huawei P Smart (2019)</td><td>R450</td></tr><tr><td>Huawei P Smart (2020)</td><td>R500</td></tr><tr><td>Huawei P Smart (2021)</td><td>R550</td></tr><tr><td>Huawei P Smart (2022)</td><td>R600</td></tr><tr><td>Huawei P40</td><td>R650</td></tr><tr><td>Huawei P40 Lite</td><td>R600</td></tr><tr><td>Huawei P40 Lite E</td><td>R650</td></tr><tr><td>Huawei P50</td><td>R750</td></tr><tr><td>Huawei P50 Pro</td><td>R850</td></tr><tr><td>Huawei Mate 20</td><td>R750</td></tr><tr><td>Huawei Mate 30</td><td>R880</td></tr>
+          </tbody></table>
+        </details>
+        <details><summary>Tecno</summary>
+          <table class="model-table"><thead><tr><th>SCREEN REPLACEMENT MODEL</th><th>PRICE</th></tr></thead><tbody>
+            <tr><td>Tecno Pop 5</td><td>R350</td></tr><tr><td>Tecno Pop 5 Lite</td><td>R350</td></tr><tr><td>Tecno Pop 7</td><td>R350</td></tr><tr><td>Tecno Pop 8</td><td>R380</td></tr><tr><td>Tecno Spark Go 2023</td><td>R400</td></tr><tr><td>Tecno Spark Go 2024</td><td>R450</td></tr><tr><td>Tecno Spark 8C</td><td>R450</td></tr><tr><td>Tecno Spark 10C</td><td>R480</td></tr><tr><td>Tecno Spark 10 Pro</td><td>R480</td></tr><tr><td>Tecno Spark 20</td><td>R480</td></tr><tr><td>Tecno Spark 20C</td><td>R480</td></tr><tr><td>Tecno Spark 40</td><td>R500</td></tr><tr><td>Tecno Spark 40 Pro</td><td>R500</td></tr><tr><td>Tecno Camon 17 Pro</td><td>R520</td></tr><tr><td>Tecno Camon 20</td><td>R550</td></tr>
+          </tbody></table>
+        </details>
+        <details><summary>Hisense</summary>
+          <table class="model-table"><thead><tr><th>SCREEN REPLACEMENT MODEL</th><th>PRICE</th></tr></thead><tbody>
+            <tr><td>Hisense U601</td><td>R300</td></tr><tr><td>Hisense U40</td><td>R350</td></tr><tr><td>Hisense U50</td><td>R400</td></tr><tr><td>Hisense U70</td><td>R420</td></tr><tr><td>Hisense U70 Pro</td><td>R450</td></tr><tr><td>Hisense U71</td><td>R480</td></tr><tr><td>Hisense U800</td><td>R400</td></tr><tr><td>Hisense E33</td><td>R380</td></tr><tr><td>Hisense E70</td><td>R420</td></tr><tr><td>Hisense E70 Pro</td><td>R450</td></tr><tr><td>Hisense H30 Lite</td><td>R480</td></tr><tr><td>Hisense H40 Rock</td><td>R550</td></tr>
+          </tbody></table>
+        </details>
+      </div>
+      <details class="mini-details">
+        <summary>🍎 iPhone Screen Replacement Prices</summary>
+        <div class="mini-content">
+          <table class="price-list-table"><thead><tr><th>iPhone Model</th><th>Price</th></tr></thead><tbody>
+            <tr><td>iPhone 6</td><td>R350</td></tr><tr><td>iPhone 6 Plus</td><td>R400</td></tr><tr><td>iPhone 6S</td><td>R350</td></tr><tr><td>iPhone 6S Plus</td><td>R400</td></tr><tr><td>iPhone 7</td><td>R430</td></tr><tr><td>iPhone 7 Plus</td><td>R450</td></tr><tr><td>iPhone 8</td><td>R450</td></tr><tr><td>iPhone 8 Plus</td><td>R450</td></tr><tr><td>iPhone X</td><td>R550</td></tr><tr><td>iPhone XR</td><td>R550</td></tr><tr><td>iPhone XS</td><td>R600</td></tr><tr><td>iPhone XS Max</td><td>R600</td></tr><tr><td>iPhone 11</td><td>R650</td></tr><tr><td>iPhone 11 Pro</td><td>R680</td></tr><tr><td>iPhone 11 Pro Max</td><td>R680</td></tr><tr><td>iPhone 12 Mini</td><td>R680</td></tr><tr><td>iPhone 12</td><td>R700</td></tr><tr><td>iPhone 12 Pro</td><td>R750</td></tr><tr><td>iPhone 12 Pro Max</td><td>R800</td></tr>
+          </tbody></table>
+        </div>
+      </details>
+      <details class="mini-details">
+        <summary>🛡️ Screen Protector</summary>
+        <div class="mini-content"><strong>FREE SCREEN PROTECTOR</strong> is included with every screen replacement.</div>
+      </details>
+      <details class="mini-details">
+        <summary>⚡ Charging Port Replacement</summary>
+        <div class="mini-content"><strong>R150 – R250</strong><br>Price depends on the device model and fault.</div>
+      </details>
+      <div class="screen-extras"><div class="screen-extra">🛡️ <strong>FREE SCREEN PROTECTOR</strong> — included with screen replacement</div><div class="screen-extra">🔧 <strong>LABOUR: R120</strong> — if you have your own LCD</div></div>
+    </div>
+
+    <div id="battery-price-panel" class="price-panel">
+      <div class="panel-heading"><div class="panel-icon">🔋</div><div><h3>BATTERY REPLACEMENT</h3><p>PRICE LIST — including fitting</p></div></div>
+      <div class="battery-table-wrap"><table class="battery-table"><thead><tr><th>BRAND</th><th>MODEL / SERIES</th><th>PRICE</th></tr></thead><tbody>
+        <tr><td>Samsung</td><td>Galaxy A / M / S / Z series</td><td>R250 – R450</td></tr><tr><td>iPhone</td><td>6 – 15 and SE</td><td>R350 – R850</td></tr><tr><td>Huawei</td><td>P / Mate / Nova series</td><td>R250 – R450</td></tr><tr><td>Xiaomi / Redmi</td><td>Redmi / Note / POCO series</td><td>R250 – R400</td></tr><tr><td>OPPO</td><td>Reno / Find / A series</td><td>R250 – R400</td></tr><tr><td>Vivo</td><td>V / Y / X series</td><td>R250 – R400</td></tr><tr><td>Nokia</td><td>2 / 3 / 5 / 6 / 7 / 8 series</td><td>R200 – R350</td></tr><tr><td>Tecno</td><td>Pop / Spark / Camon series</td><td>R200 – R350</td></tr><tr><td>Infinix</td><td>Hot / Note series</td><td>R200 – R350</td></tr>
+      </tbody></table></div>
+      <div class="battery-note">🔋 <strong>BATTERY REPLACEMENT INCLUDING FITTING</strong><br>Professional installation and workmanship warranty terms may apply. Prices are estimates and may vary by model and battery quality.</div>
+    </div>
+
+    <details class="mini-details"><summary>🔘 Side Button Repair</summary><div class="mini-content"><strong>R100 – R200</strong></div></details>
+    <details class="mini-details"><summary>🍎 iPhone Home Button Repair</summary><div class="mini-content"><strong>R150 – R250</strong></div></details>
+    <details class="mini-details"><summary>📱 Back Cover Replacement</summary><div class="mini-content"><strong>R150 – R350</strong></div></details>
+  </div>
+</details>
+
+<details id="about" class="card accordion-card">
+  <summary>About Tsepaya Phone Repair</summary>
+  <div class="accordion-content about-box">
+    <p><strong>Tsepaya Phone Repair</strong> is a local phone repair business focused on fast, reliable and affordable service.</p>
+    <p>We also <strong>buy old or broken smartphones for cash</strong> and sell phones to customers according to their budget, from <strong>R400 and up</strong>.</p>
+    <div class="policy-box"><strong>🚫 NO ILLEGAL OR STOLEN DEVICES</strong><br>We do not promote or support any illegal or criminal activity. We only buy devices where the seller can provide solid proof that the device belongs to them.</div>
+    <h3>Proof of Ownership Required</h3>
+    <div class="proof-box"><ul><li>A picture of yourself holding the device.</li><li>Your original name and surname.</li><li>Your home address.</li><li>A voice note confirming that the device belongs to you and is not stolen.</li><li>Any additional ownership information or proof requested during the transaction.</li></ul></div>
+    <p>If a device is suspected or confirmed to be stolen, the transaction will be refused and the matter may be reported to SAPS or the relevant authorities.</p>
+    <div class="receipt-box"><strong>🧾 Receipt provided:</strong> A receipt will be issued as proof of the transaction. For phone sales, the receipt will include the customer's signature, and a copy will be kept by Tsepaya Phone Repair for our records in case a dispute or problem occurs.</div>
+    <h3>📱 Phones for Sale</h3>
+    <p>We sell phones at different prices to suit different budgets, starting from <strong>R400 and up</strong>. A receipt is provided for every sale.</p>
+  </div>
+</details>
+
+<details id="location" class="card accordion-card">
+  <summary>Location</summary>
+  <div class="accordion-content">
+    <p><strong>Tsepaya Phone Repair</strong></p>
+    <p>5511 Mabhekana Street, Lakeside Extension 2, Orange Farm, 1841</p>
+    <a class="location-link" href="https://www.google.com/maps/search/?api=1&query=5511%20Mabhekana%20Street%2C%20Lakeside%20Extension%202%2C%20Orange%20Farm%2C%201841" target="_blank" rel="noopener">Open Location in Google Maps</a>
+  </div>
+</details>
+
+
+<details id="terms" class="card accordion-card">
+  <summary>Invoice Terms & Conditions</summary>
+  <div class="accordion-content about-box">
+    <div class="policy-box">
+      <strong>🧾 IMPORTANT — PLEASE READ BEFORE LEAVING A DEVICE FOR REPAIR</strong>
+      <p style="margin-bottom:0">By leaving a device with Tsepaya Phone Repair, the customer confirms that they have read and accepted the terms below.</p>
+    </div>
+    <ol style="padding-left:22px;line-height:1.6">
+      <li><strong>Uncollected repairs:</strong> If a repair is not collected within <strong>15 days</strong>, the device may be sold to recover outstanding repair costs.</li>
+      <li><strong>Repair deposit:</strong> A <strong>50% deposit upfront</strong> is required before repair work begins and is not negotiable.</li>
+      <li><strong>Water, network & software problems:</strong> No guarantee is provided for water-damaged LCDs/displays, network problems or software-related problems.</li>
+      <li><strong>Risk during repairs:</strong> Tsepaya Phone Repair is not responsible for fire, theft or damage that occurs during the repair process.</li>
+      <li><strong>Collection:</strong> Devices/items will only be released when the customer presents the relevant repair/invoice slip.</li>
+      <li><strong>Owner's risk:</strong> All repairs are left at the owner's risk.</li>
+      <li><strong>Check on collection:</strong> Customers must check the repaired device on the spot. Tsepaya Phone Repair is not responsible for issues raised after the device has been checked and accepted.</li>
+      <li><strong>IMEI & data:</strong> Tsepaya Phone Repair is not responsible if the IMEI is different, blacklisted, or for loss of data.</li>
+    </ol>
+    <div class="receipt-box">
+      <strong>✍️ Customer acknowledgement:</strong> By submitting a repair booking, the customer confirms acceptance of these terms and conditions. A signed invoice/repair slip may also be required when the device is booked in.
+    </div>
+  </div>
+</details>
+
+<section class="section" id="booking">
+<h2>Book a Repair</h2>
+<form onsubmit="submitBooking(event)">
+<label>Full Name</label>
+<input required placeholder="Enter your full name">
+
+<label>Contact Number</label>
+<input required type="tel" placeholder="e.g. 070 475 1327">
+
+<label>Device Brand & Model</label>
+<input required placeholder="e.g. Samsung Galaxy A14">
+
+<label>Device Colour</label>
+<input required placeholder="e.g. Black, Blue, Silver">
+
+<label>Repair Required / Fault</label>
+<textarea required placeholder="Please describe the problem with your device"></textarea>
+
+<label>Preferred Booking Date</label>
+<input required type="date">
+
+<label>Preferred Booking Time</label>
+<input required type="time">
+
+<label>R5 Deposit / Payment Reference</label>
+<input id="paymentRef" required placeholder="Enter your R5 payment reference">
+
+<label class="payment-check">
+<input id="depositConfirm" type="checkbox" required>
+I confirm that I have deposited the R5 booking fee and will send proof of payment on WhatsApp.
+</label>
+
+
+<label class="payment-check">
+<input id="termsConfirm" type="checkbox" required>
+I have read and agree to the Invoice Terms & Conditions above.
+</label>
+<button class="btn full" type="submit">Submit Repair Booking</button>
+<p class="small-note">Bookings without the R5 deposit are not accepted. Your booking is only confirmed after payment proof is received and the deposit is verified.</p>
+</form>
+</section>
+
+<section class="section">
+<h2>Contact & Location</h2>
+<div class="card">
+<b>📞 070 475 1327</b>
+<p>📍 5511 Mabhekana Street, Lakeside Extension 2, Orange Farm, 1841</p>
+<a class="btn full" href="https://wa.me/27704751327">WhatsApp Us</a>
+</div>
+</section>
+</main>
+
+
+
+
+
+
+
+
+
+
+
+
+<footer>
+Tsepaya Phone Repair<br>
+Fix • Repair • Connect
+</footer>
+
+<nav>
+<button onclick="location.href='#booking'">Book a Repair</button>
+</nav>
+</div>
+
+<script>
+function submitBooking(e){
+ e.preventDefault();
+ const form = e.target;
+ const name = form.querySelector('input[placeholder="Enter your full name"]').value.trim();
+ const model = form.querySelector('input[placeholder="e.g. Samsung Galaxy A14"]').value.trim();
+ const phone = form.querySelector('input[type="tel"]').value.trim();
+ const paymentRef = document.getElementById('paymentRef').value.trim();
+ const depositConfirmed = document.getElementById('depositConfirm').checked;
+
+ if (!depositConfirmed || !paymentRef) {
+   alert("Booking declined. Please deposit the R5 booking fee and enter your payment reference before submitting the booking.");
+   return;
+ }
+
+ const message =
+ "Tsepaya Phone Repair - Repair Booking%0A%0A" +
+ "Customer: " + encodeURIComponent(name) + "%0A" +
+ "Device: " + encodeURIComponent(model) + "%0A" +
+ "Contact: " + encodeURIComponent(phone) + "%0A" +
+ "R5 Payment Reference: " + encodeURIComponent(paymentRef) + "%0A%0A" +
+ "I have deposited the R5 booking fee and will send proof of payment. " +
+ "I understand that the R5 is refunded in cash after my device has been repaired.";
+
+ const whatsapp = "https://wa.me/27704751327?text=" + message;
+ alert("Booking request submitted. Please send your R5 proof of payment on WhatsApp. The booking will only be confirmed after the R5 deposit is verified.");
+ window.location.href = whatsapp;
+}
+</script>
+
+<script>
+function showPrice(btn){
+  document.querySelectorAll('.price-panel').forEach(function(p){p.classList.remove('active');});
+  const target=document.getElementById(btn.getAttribute('data-target'));
+  if(target) target.classList.add('active');
+}
+document.addEventListener('click',function(e){
+  const b=e.target.closest('.price-choice');
+  if(b) showPrice(b);
+});
+</script>
+
+<script>
+document.addEventListener('toggle', function(e){
+  if(e.target.classList && (e.target.classList.contains('screen-replacement-column') || e.target.classList.contains('battery-replacement-column'))){
+    const icon=e.target.querySelector('summary .screen-toggle');
+    if(icon) icon.textContent=e.target.open?'−':'＋';
+  }
+});
+
+function showPricePanel(id, button){
+  document.querySelectorAll('.price-panel').forEach(function(panel){panel.classList.remove('active');});
+  document.querySelectorAll('.price-choice-card').forEach(function(btn){btn.classList.remove('active');});
+  var panel=document.getElementById(id);
+  if(panel) panel.classList.add('active');
+  if(button) button.classList.add('active');
+}
+</script>
+</body>
+</html>
